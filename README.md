@@ -1,1 +1,1 @@
-# rock-paper-scissors-lizard-spock
+# spock-rock-game
