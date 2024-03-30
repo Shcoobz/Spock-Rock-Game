@@ -44,7 +44,6 @@ h1 {
   padding-left: 25px;
 }
 
-/* TODO: align with text */
 .reset-icon {
   cursor: pointer;
   font-size: 25px;
@@ -106,7 +105,12 @@ h2 {
   }
 
   h1 {
-    font-size: 24px;
+    font-size: 23px;
+  }
+
+  .reset-icon {
+    font-size: 23px;
+    margin-left: 25px;
   }
 
   .player-container {
@@ -117,9 +121,9 @@ h2 {
     margin-right: 20px;
   }
 
-  .reset-icon {
-    margin-top: 25px;
-    margin-left: 25px;
+  #player .far:first-of-type,
+  #computer .far:first-of-type {
+    margin-left: 10px;
   }
 }
 
@@ -129,8 +133,9 @@ h2 {
     height: 550px;
   }
 
-  h1 {
-    font-size: 22px;
+  h1,
+  .reset-icon {
+    font-size: 18px;
   }
 
   .player-container {
@@ -139,10 +144,6 @@ h2 {
 
   .far {
     font-size: 43px;
-  }
-
-  .reset-icon {
-    margin-top: 15px;
   }
 
   .result-container {
