@@ -40,7 +40,16 @@ body {
 
 h1 {
   color: white;
-  font-size: 30px;
+  font-size: 28px;
+  padding-left: 20px;
+}
+
+/* TODO: align with text */
+.reset-icon {
+  cursor: pointer;
+  font-size: 28px;
+  margin-left: 25px;
+  padding-right: 20px;
 }
 
 .player-container {
@@ -75,12 +84,6 @@ h2 {
 
 .selected {
   color: var(--selected-color) !important;
-}
-
-.reset-icon {
-  font-size: 30px;
-  cursor: pointer;
-  margin-left: 50px;
 }
 
 .result-container {
