@@ -1,3 +1,16 @@
+// TODO:
+// * include rules as msg:
+// * Scissors cuts Paper
+// * Paper covers Rock
+// * Rock crushes Lizard
+// * Lizard poisons Spock
+// * Spock smashes Scissors
+// * Scissors decapitates Lizard
+// * Lizard eats Paper
+// * Paper disproves Spock
+// * Spock vaporizes Rock
+// * (and as it always has) Rock crushes Scissors
+
 const playerScoreEl = document.getElementById('playerScore');
 const playerChoiceEl = document.getElementById('playerChoice');
 const playerRock = document.getElementById('playerRock');
@@ -14,6 +27,7 @@ const computerScissors = document.getElementById('computerScissors');
 const computerLizard = document.getElementById('computerLizard');
 const computerSpock = document.getElementById('computerSpock');
 
+const resultRule = document.getElementById('resultRuleText');
 const resultText = document.getElementById('resultText');
 const allGameIcons = document.querySelectorAll('.far');
 
@@ -25,6 +39,8 @@ const choices = {
   spock: { name: 'Spock', defeats: ['scissors', 'rock'] },
 };
 
+let playerScoreNumber = 0;
+let computerScoreNumber = 0;
 let computerChoice = '';
 
 // Reset all 'selected' icons
@@ -84,16 +100,37 @@ function displayComputerChoice() {
   }
 }
 
+// Check result, increase scores, update resultText
+function updateScore(playerChoice) {
+  if (playerChoice === computerChoice) {
+    // resultRule.textContent = `${playerChoice} does nothing to ${computerChoice}`;
+    resultText.textContent = "It's a tie.";
+  } else {
+    const choice = choices[playerChoice];
+
+    if (choice.defeats.indexOf(computerChoice) > -1) {
+      resultText.textContent = 'You Won!';
+      playerScoreNumber++;
+      playerScoreEl.textContent = playerScoreNumber;
+    } else {
+      resultText.textContent = 'You Lost!';
+      computerScoreNumber++;
+      computerScoreEl.textContent = computerScoreNumber;
+    }
+  }
+}
+
 // Call functions to process turn
-function checkResult() {
+function checkResult(playerChoice) {
   resetSelected();
   computerRandomChoice();
   displayComputerChoice();
+  updateScore(playerChoice);
 }
 
 // Passing Player selection value and styling icons
 function select(playerChoice) {
-  checkResult();
+  checkResult(playerChoice);
   // Add selected styling & playerChoice
   switch (playerChoice) {
     case 'rock':
