@@ -33,6 +33,29 @@ const resultRule = document.getElementById('resultRuleText');
 const resultText = document.getElementById('resultText');
 const allGameIcons = document.querySelectorAll('.far');
 
+const rules = {
+  scissors: {
+    paper: 'Scissors cuts Paper.',
+    lizard: 'Scissors decapitates Lizard.',
+  },
+  paper: {
+    rock: 'Paper covers Rock.',
+    spock: 'Paper disproves Spock.',
+  },
+  rock: {
+    lizard: 'Rock crushes Lizard.',
+    scissors: 'Rock crushes Scissors (as it always has).',
+  },
+  lizard: {
+    spock: 'Lizard poisons Spock.',
+    paper: 'Lizard eats Paper.',
+  },
+  spock: {
+    scissors: 'Spock smashes Scissors.',
+    rock: 'Spock vaporizes Rock.',
+  },
+};
+
 const choices = {
   rock: { name: 'Rock', defeats: ['scissors', 'lizard'] },
   paper: { name: 'Paper', defeats: ['rock', 'spock'] },
@@ -121,10 +144,46 @@ function displayComputerChoice() {
   }
 }
 
+// Display rules for every move in player/computer color
+function displayRule(playerChoice, computerChoice) {
+  if (rules[playerChoice] && rules[playerChoice][computerChoice]) {
+    resultRule.innerHTML = rules[playerChoice][computerChoice]
+      .replace(
+        playerChoice.charAt(0).toUpperCase() + playerChoice.slice(1),
+        `<span style="color: var(--player-color);">${
+          playerChoice.charAt(0).toUpperCase() + playerChoice.slice(1)
+        }</span>`
+      )
+      .replace(
+        computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1),
+        `<span style="color: var(--computer-color);">${
+          computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1)
+        }</span>`
+      );
+  } else if (rules[computerChoice] && rules[computerChoice][playerChoice]) {
+    resultRule.innerHTML = rules[computerChoice][playerChoice]
+      .replace(
+        computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1),
+        `<span style="color: var(--computer-color);">${
+          computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1)
+        }</span>`
+      )
+      .replace(
+        playerChoice.charAt(0).toUpperCase() + playerChoice.slice(1),
+        `<span style="color: var(--player-color);">${
+          playerChoice.charAt(0).toUpperCase() + playerChoice.slice(1)
+        }</span>`
+      );
+  } else {
+    resultRule.textContent = 'Nothing happens.';
+  }
+}
+
 // Check result, increase scores, update resultText
 function updateScore(playerChoice) {
+  displayRule(playerChoice, computerChoice);
+
   if (playerChoice === computerChoice) {
-    // resultRule.textContent = `${playerChoice} does nothing to ${computerChoice}`;
     resultText.textContent = "It's a tie.";
   } else {
     const choice = choices[playerChoice];
