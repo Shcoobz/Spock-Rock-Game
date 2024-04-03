@@ -111,7 +111,8 @@ h2 {
   color: var(--selected-color) !important;
 }
 
-.rule-container {
+.rule-container,
+.result-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -121,12 +122,6 @@ h2 {
   font-size: 25px;
   margin: unset;
   margin-top: 10px;
-}
-
-.result-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .result-text {
@@ -143,29 +138,43 @@ h2 {
   }
 
   h1 {
-    font-size: 23px;
+    font-size: 22px;
   }
 
   .reset-icon {
-    font-size: 23px;
+    font-size: 22px;
     margin-left: 25px;
   }
 
-  .player-container {
+  .player-container,
+  .computer-container {
     margin: 50px 0 25px 25px;
   }
 
+  .player-container h2 .choice,
+  .computer-container h2 .choice {
+    margin-right: 25px;
+  }
+
   .far {
-    margin-right: 20px;
+    margin-right: 25px;
   }
 
   #player .far:first-of-type,
   #computer .far:first-of-type {
-    margin-left: 22px;
+    margin-left: 5px;
   }
 
-  .result-container {
-    margin-top: 35px;
+  .result-rule {
+    font-size: 22px;
+    margin: unset;
+    margin-top: 15px;
+  }
+
+  .result-text {
+    font-size: 35px;
+    margin: unset;
+    margin-top: 30px;
   }
 }
 
@@ -180,20 +189,29 @@ h2 {
     font-size: 18px;
   }
 
-  .player-container {
+  .player-container,
+  .computer-container {
     margin: 43px 0 25px 20px;
   }
 
+  .player-container h2 .choice,
+  .computer-container h2 .choice {
+    margin-right: 20px;
+  }
+
   .far {
-    font-size: 43px;
+    font-size: 40px;
   }
 
-  #player .far:first-of-type,
-  #computer .far:first-of-type {
-    margin-left: 5px;
+  .result-rule {
+    font-size: 20px;
+    margin: unset;
+    margin-top: 15px;
   }
 
-  .result-container {
-    margin-top: 50px;
+  .result-text {
+    font-size: 30px;
+    margin: unset;
+    margin-top: 30px;
   }
 }
