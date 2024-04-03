@@ -51,7 +51,33 @@ h1 {
   padding-right: 25px;
 }
 
-.player-container {
+.player-container h2,
+.computer-container h2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.player-container h2 .player-human,
+.computer-container h2 .player-computer {
+  width: 85px;
+  text-align: left;
+}
+
+.player-container h2 .score,
+.computer-container h2 .score {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.player-container h2 .choice,
+.computer-container h2 .choice {
+  width: 100px;
+  text-align: right;
+}
+
+.player-container,
+.computer-container {
   margin: 50px;
 }
 
