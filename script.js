@@ -1,249 +1,136 @@
-// TODO:
-// * include rules as msg:
-// * Scissors cuts Paper
-// * Paper covers Rock
-// * Rock crushes Lizard
-// * Lizard poisons Spock
-// * Spock smashes Scissors
-// * Scissors decapitates Lizard
-// * Lizard eats Paper
-// * Paper disproves Spock
-// * Spock vaporizes Rock
-// * (and as it always has) Rock crushes Scissors
-
 import { startConfetti, stopConfetti, removeConfetti } from './modules/confetti.js';
 
-const playerScoreEl = document.getElementById('playerScore');
-const playerChoiceEl = document.getElementById('playerChoice');
-const playerRock = document.getElementById('playerRock');
-const playerPaper = document.getElementById('playerPaper');
-const playerScissors = document.getElementById('playerScissors');
-const playerLizard = document.getElementById('playerLizard');
-const playerSpock = document.getElementById('playerSpock');
+// Utility for obtaining elements by ID
+const getElement = (id) => document.getElementById(id);
 
-const computerScoreEl = document.getElementById('computerScore');
-const computerChoiceEl = document.getElementById('computerChoice');
-const computerRock = document.getElementById('computerRock');
-const computerPaper = document.getElementById('computerPaper');
-const computerScissors = document.getElementById('computerScissors');
-const computerLizard = document.getElementById('computerLizard');
-const computerSpock = document.getElementById('computerSpock');
+// Player and computer elements
+const playerElements = {
+  score: getElement('playerScore'),
+  choice: getElement('playerChoice'),
+  rock: getElement('playerRock'),
+  paper: getElement('playerPaper'),
+  scissors: getElement('playerScissors'),
+  lizard: getElement('playerLizard'),
+  spock: getElement('playerSpock'),
+};
 
-const resultRule = document.getElementById('resultRuleText');
-const resultText = document.getElementById('resultText');
+const computerElements = {
+  score: getElement('computerScore'),
+  choice: getElement('computerChoice'),
+  rock: getElement('computerRock'),
+  paper: getElement('computerPaper'),
+  scissors: getElement('computerScissors'),
+  lizard: getElement('computerLizard'),
+  spock: getElement('computerSpock'),
+};
+
+const resultRule = getElement('resultRuleText');
+const resultText = getElement('resultText');
 const allGameIcons = document.querySelectorAll('.far');
 
+// Rules of the game
 const rules = {
-  scissors: {
-    paper: 'Scissors cuts Paper.',
-    lizard: 'Scissors decapitates Lizard.',
-  },
-  paper: {
-    rock: 'Paper covers Rock.',
-    spock: 'Paper disproves Spock.',
-  },
-  rock: {
-    lizard: 'Rock crushes Lizard.',
-    scissors: 'Rock crushes Scissors (as it always has).',
-  },
-  lizard: {
-    spock: 'Lizard poisons Spock.',
-    paper: 'Lizard eats Paper.',
-  },
-  spock: {
-    scissors: 'Spock smashes Scissors.',
-    rock: 'Spock vaporizes Rock.',
-  },
+  scissors: { paper: 'cuts', lizard: 'decapitates' },
+  paper: { rock: 'covers', spock: 'disproves' },
+  rock: { lizard: 'crushes', scissors: 'crushes' },
+  lizard: { spock: 'poisons', paper: 'eats' },
+  spock: { scissors: 'smashes', rock: 'vaporizes' },
 };
 
-const choices = {
-  rock: { name: 'Rock', defeats: ['scissors', 'lizard'] },
-  paper: { name: 'Paper', defeats: ['rock', 'spock'] },
-  scissors: { name: 'Scissors', defeats: ['paper', 'lizard'] },
-  lizard: { name: 'Lizard', defeats: ['paper', 'spock'] },
-  spock: { name: 'Spock', defeats: ['scissors', 'rock'] },
-};
+// Choices and what they defeat
+const choices = ['rock', 'paper', 'scissors', 'lizard', 'spock'];
 
-let playerScoreNumber = 0;
-let computerScoreNumber = 0;
-let computerChoice = '';
+// Game scores
+let scores = { player: 0, computer: 0 };
 
-// Reset all 'selected' icons
+// Reset all 'selected' icons and stop confetti
 function resetSelected() {
-  allGameIcons.forEach((gameIcon) => {
-    gameIcon.classList.remove('selected');
-  });
+  allGameIcons.forEach((icon) => icon.classList.remove('selected'));
   stopConfetti();
   removeConfetti();
 }
 
-// ResetScore & playerChoice/computerChoice
+// Reset game to initial state
 function resetAll() {
-  playerScoreNumber = 0;
-  playerScoreEl.textContent = playerScoreNumber;
-  playerChoiceEl.textContent = '';
-
-  computerScoreNumber = 0;
-  computerScoreEl.textContent = computerScoreNumber;
-  computerChoiceEl.textContent = '';
-
+  scores = { player: 0, computer: 0 };
+  playerElements.score.textContent = 0;
+  computerElements.score.textContent = 0;
   resultText.textContent = '';
-
   resetSelected();
 }
 
-window.resetAll = resetAll;
-
-// Random computer choice
+// Generate a random choice for the computer
 function computerRandomChoice() {
-  const computerChoiceNumber = Math.random();
-
-  if (computerChoiceNumber < 0.2) {
-    computerChoice = 'rock';
-  } else if (computerChoiceNumber <= 0.4) {
-    computerChoice = 'paper';
-  } else if (computerChoiceNumber <= 0.6) {
-    computerChoice = 'scissors';
-  } else if (computerChoiceNumber <= 0.8) {
-    computerChoice = 'lizard';
-  } else {
-    computerChoice = 'spock';
-  }
+  const choiceIndex = Math.floor(Math.random() * choices.length);
+  return choices[choiceIndex];
 }
 
-// Add 'selected' styling & computerChoice
-function displayComputerChoice() {
-  switch (computerChoice) {
-    case 'rock':
-      computerRock.classList.add('selected');
-      computerChoiceEl.textContent = 'Rock';
-      break;
-
-    case 'paper':
-      computerPaper.classList.add('selected');
-      computerChoiceEl.textContent = 'Paper';
-      break;
-
-    case 'scissors':
-      computerScissors.classList.add('selected');
-      computerChoiceEl.textContent = 'Scissors';
-      break;
-
-    case 'lizard':
-      computerLizard.classList.add('selected');
-      computerChoiceEl.textContent = 'Lizard';
-      break;
-
-    case 'spock':
-      computerSpock.classList.add('selected');
-      computerChoiceEl.textContent = 'Spock';
-      break;
-
-    default:
-      break;
-  }
+// Display the computer's choice visually
+function displayComputerChoice(choice) {
+  computerElements[choice].classList.add('selected');
+  computerElements.choice.textContent = choice.charAt(0).toUpperCase() + choice.slice(1);
 }
 
-// Display rules for every move in player/computer color
+// Helper function to capitalize the first letter of a string
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+// Update the display with the rule that determined the round outcome
 function displayRule(playerChoice, computerChoice) {
-  if (rules[playerChoice] && rules[playerChoice][computerChoice]) {
-    resultRule.innerHTML = rules[playerChoice][computerChoice]
-      .replace(
-        playerChoice.charAt(0).toUpperCase() + playerChoice.slice(1),
-        `<span style="color: var(--player-color);">${
-          playerChoice.charAt(0).toUpperCase() + playerChoice.slice(1)
-        }</span>`
-      )
-      .replace(
-        computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1),
-        `<span style="color: var(--computer-color);">${
-          computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1)
-        }</span>`
-      );
-  } else if (rules[computerChoice] && rules[computerChoice][playerChoice]) {
-    resultRule.innerHTML = rules[computerChoice][playerChoice]
-      .replace(
-        computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1),
-        `<span style="color: var(--computer-color);">${
-          computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1)
-        }</span>`
-      )
-      .replace(
-        playerChoice.charAt(0).toUpperCase() + playerChoice.slice(1),
-        `<span style="color: var(--player-color);">${
-          playerChoice.charAt(0).toUpperCase() + playerChoice.slice(1)
-        }</span>`
-      );
-  } else {
-    resultRule.textContent = 'Nothing happens.';
+  const playerWinningRule = rules[playerChoice]?.[computerChoice];
+  const computerWinningRule = rules[computerChoice]?.[playerChoice];
+
+  let ruleText = 'Nothing happens.';
+  if (playerWinningRule) {
+    ruleText = `<span style="color: var(--player-color);">${capitalizeFirstLetter(
+      playerChoice
+    )}</span> ${playerWinningRule} <span style="color: var(--computer-color);">${capitalizeFirstLetter(
+      computerChoice
+    )}</span>.`;
+  } else if (computerWinningRule) {
+    ruleText = `<span style="color: var(--computer-color);">${capitalizeFirstLetter(
+      computerChoice
+    )}</span> ${computerWinningRule} <span style="color: var(--player-color);">${capitalizeFirstLetter(
+      playerChoice
+    )}</span>.`;
   }
+  resultRule.innerHTML = ruleText;
 }
 
-// Check result, increase scores, update resultText
+// Update scores and display the result of a round
 function updateScore(playerChoice) {
+  const computerChoice = computerRandomChoice();
+  displayComputerChoice(computerChoice);
   displayRule(playerChoice, computerChoice);
 
   if (playerChoice === computerChoice) {
     resultText.textContent = "It's a tie.";
+    return;
+  }
+
+  if (rules[playerChoice]?.[computerChoice]) {
+    startConfetti();
+    resultText.textContent = 'You Won!';
+    scores.player++;
+    playerElements.score.textContent = scores.player;
   } else {
-    const choice = choices[playerChoice];
-
-    if (choice.defeats.indexOf(computerChoice) > -1) {
-      startConfetti();
-      resultText.textContent = 'You Won!';
-      playerScoreNumber++;
-      playerScoreEl.textContent = playerScoreNumber;
-    } else {
-      resultText.textContent = 'You Lost!';
-      computerScoreNumber++;
-      computerScoreEl.textContent = computerScoreNumber;
-    }
+    resultText.textContent = 'You Lost!';
+    scores.computer++;
+    computerElements.score.textContent = scores.computer;
   }
 }
 
-// Call functions to process turn
-function checkResult(playerChoice) {
-  resetSelected();
-  computerRandomChoice();
-  displayComputerChoice();
-  updateScore(playerChoice);
-}
-
-// Passing Player selection value and styling icons
+// Main function to process a player's choice
 function select(playerChoice) {
-  checkResult(playerChoice);
-  // Add selected styling & playerChoice
-  switch (playerChoice) {
-    case 'rock':
-      playerRock.classList.add('selected');
-      playerChoiceEl.textContent = 'Rock';
-      break;
-
-    case 'paper':
-      playerPaper.classList.add('selected');
-      playerChoiceEl.textContent = 'Paper';
-      break;
-
-    case 'scissors':
-      playerScissors.classList.add('selected');
-      playerChoiceEl.textContent = 'Scissors';
-      break;
-
-    case 'lizard':
-      playerLizard.classList.add('selected');
-      playerChoiceEl.textContent = 'Lizard';
-      break;
-
-    case 'spock':
-      playerSpock.classList.add('selected');
-      playerChoiceEl.textContent = 'Spock';
-      break;
-
-    default:
-      break;
-  }
+  resetSelected();
+  updateScore(playerChoice);
+  playerElements[playerChoice].classList.add('selected');
+  playerElements.choice.textContent =
+    playerChoice.charAt(0).toUpperCase() + playerChoice.slice(1);
 }
 
+window.resetAll = resetAll;
 window.select = select;
 
 // On startup, set initial values
