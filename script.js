@@ -1,9 +1,15 @@
 import { startConfetti, stopConfetti, removeConfetti } from './modules/confetti.js';
 
-// Utility for obtaining elements by ID
+/**
+ * Obtains a DOM element by its ID.
+ * @param {string} id - The ID of the DOM element to retrieve.
+ * @returns {Element} The DOM element associated with the provided ID.
+ */
 const getElement = (id) => document.getElementById(id);
 
-// Player and computer elements
+/**
+ * Stores references to player and computer score and choice elements.
+ */
 const playerElements = {
   score: getElement('playerScore'),
   choice: getElement('playerChoice'),
@@ -28,7 +34,9 @@ const resultRule = getElement('resultRuleText');
 const resultText = getElement('resultText');
 const allGameIcons = document.querySelectorAll('.far');
 
-// Rules of the game
+/**
+ * The rules of the game, indicating which choices beat which.
+ */
 const rules = {
   scissors: { paper: 'cuts', lizard: 'decapitates' },
   paper: { rock: 'covers', spock: 'disproves' },
@@ -37,20 +45,28 @@ const rules = {
   spock: { scissors: 'smashes', rock: 'vaporizes' },
 };
 
-// Choices and what they defeat
+/**
+ * An array of valid game choices.
+ */
 const choices = ['rock', 'paper', 'scissors', 'lizard', 'spock'];
 
-// Game scores
+/**
+ * Game scores for player and computer.
+ */
 let scores = { player: 0, computer: 0 };
 
-// Reset all 'selected' icons and stop confetti
+/**
+ * Resets all selected icons and stops confetti animation.
+ */
 function resetSelected() {
   allGameIcons.forEach((icon) => icon.classList.remove('selected'));
   stopConfetti();
   removeConfetti();
 }
 
-// Reset game to initial state
+/**
+ * Resets the game to its initial state, including scores and selections.
+ */
 function resetAll() {
   scores = { player: 0, computer: 0 };
   playerElements.score.textContent = 0;
@@ -59,24 +75,38 @@ function resetAll() {
   resetSelected();
 }
 
-// Generate a random choice for the computer
+/**
+ * Generates a random choice for the computer from the available choices.
+ * @returns {string} The computer's choice.
+ */
 function computerRandomChoice() {
   const choiceIndex = Math.floor(Math.random() * choices.length);
   return choices[choiceIndex];
 }
 
-// Display the computer's choice visually
+/**
+ * Displays the computer's choice visually on the UI.
+ * @param {string} choice - The computer's choice.
+ */
 function displayComputerChoice(choice) {
   computerElements[choice].classList.add('selected');
   computerElements.choice.textContent = choice.charAt(0).toUpperCase() + choice.slice(1);
 }
 
-// Helper function to capitalize the first letter of a string
+/**
+ * Capitalizes the first letter of a given string.
+ * @param {string} string - The string to be modified.
+ * @returns {string} The modified string with its first letter capitalized.
+ */
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-// Update the display with the rule that determined the round outcome
+/**
+ * Updates the rule text based on the player's and computer's choices.
+ * @param {string} playerChoice - The player's choice.
+ * @param {string} computerChoice - The computer's choice.
+ */
 function displayRule(playerChoice, computerChoice) {
   const playerWinningRule = rules[playerChoice]?.[computerChoice];
   const computerWinningRule = rules[computerChoice]?.[playerChoice];
@@ -98,7 +128,10 @@ function displayRule(playerChoice, computerChoice) {
   resultRule.innerHTML = ruleText;
 }
 
-// Update scores and display the result of a round
+/**
+ * Updates the score based on the round result and displays the outcome.
+ * @param {string} playerChoice - The player's choice.
+ */
 function updateScore(playerChoice) {
   const computerChoice = computerRandomChoice();
   displayComputerChoice(computerChoice);
@@ -121,7 +154,10 @@ function updateScore(playerChoice) {
   }
 }
 
-// Main function to process a player's choice
+/**
+ * Processes the player's choice, updates the UI and score accordingly.
+ * @param {string} playerChoice - The player's choice.
+ */
 function select(playerChoice) {
   resetSelected();
   updateScore(playerChoice);
@@ -130,8 +166,21 @@ function select(playerChoice) {
     playerChoice.charAt(0).toUpperCase() + playerChoice.slice(1);
 }
 
-window.resetAll = resetAll;
-window.select = select;
+/**
+ * Initializes the game by setting up global access to essential functions and resetting the game state.
+ * It makes the `resetAll` and `select` functions globally accessible, allowing them to be called from the HTML document.
+ * This function is called when the script loads to prepare the game for the user.
+ */
+function initGame() {
+  window.resetAll = resetAll;
+  window.select = select;
 
-// On startup, set initial values
-resetAll();
+  resetAll();
+}
+
+/**
+ * Initializes the game setup by calling `initGame`. This is the entry point of the application,
+ * ensuring that the game's initial state is set and necessary functions are made globally available.
+ * This call is placed at the end of the script to ensure all preceding definitions are loaded.
+ */
+initGame();

@@ -1,15 +1,36 @@
 // Confetti.js - downloaded from https://www.cssscript.com/css-css3/
 
-// Essential variables for controlling the confetti animation
+/**
+ * Initializes and controls confetti effects.
+ */
 var maxParticleCount = 100; // Maximum number of particles
 var particleSpeed = 5; // Speed of the particles
-var colors = ['DodgerBlue', 'OliveDrab', 'Gold', 'Pink', 'SlateBlue', 'LightBlue', 'Violet', 'PaleGreen', 'SteelBlue', 'SandyBrown', 'Chocolate', 'Crimson']; // Colors of the particles
+var colors = [
+  'DodgerBlue',
+  'OliveDrab',
+  'Gold',
+  'Pink',
+  'SlateBlue',
+  'LightBlue',
+  'Violet',
+  'PaleGreen',
+  'SteelBlue',
+  'SandyBrown',
+  'Chocolate',
+  'Crimson',
+]; // Colors of the particles
 var streamingConfetti = false;
 var animationTimer = null;
 var particles = [];
 var waveAngle = 0;
 
-// Function to reset a particle's properties
+/**
+ * Resets a particle's properties with new values.
+ * @param {Object} particle - The particle object to reset.
+ * @param {number} width - The width of the canvas.
+ * @param {number} height - The height of the canvas.
+ * @returns {Object} The reset particle object.
+ */
 function resetParticle(particle, width, height) {
   particle.color = colors[(Math.random() * colors.length) | 0];
   particle.x = Math.random() * width;
@@ -21,7 +42,9 @@ function resetParticle(particle, width, height) {
   return particle;
 }
 
-// Starts the confetti animation
+/**
+ * Starts the confetti animation.
+ */
 function startConfetti() {
   var width = window.innerWidth;
   var height = window.innerHeight;
@@ -29,14 +52,21 @@ function startConfetti() {
   if (!canvas) {
     canvas = document.createElement('canvas');
     canvas.setAttribute('id', 'confetti-canvas');
-    canvas.setAttribute('style', 'position:absolute;top:0;left:0;display:block;z-index:999999;pointer-events:none');
+    canvas.setAttribute(
+      'style',
+      'position:absolute;top:0;left:0;display:block;z-index:999999;pointer-events:none'
+    );
     document.body.appendChild(canvas);
     canvas.width = width;
     canvas.height = height;
-    window.addEventListener('resize', function() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }, true);
+    window.addEventListener(
+      'resize',
+      function () {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      },
+      true
+    );
   }
   var context = canvas.getContext('2d');
   particles = [];
@@ -59,20 +89,27 @@ function startConfetti() {
   }
 }
 
-// Stops adding new confetti particles
+/**
+ * Stops the confetti animation.
+ */
 function stopConfetti() {
   streamingConfetti = false;
 }
 
-// Removes all confetti particles immediately
+/**
+ * Removes all confetti particles immediately.
+ */
 function removeConfetti() {
   stopConfetti();
   particles = [];
 }
 
-// Draws the particles on the canvas
+/**
+ * Draws the confetti particles on the canvas.
+ * @param {CanvasRenderingContext2D} context - The rendering context of the canvas.
+ */
 function drawParticles(context) {
-  particles.forEach(function(particle) {
+  particles.forEach(function (particle) {
     context.beginPath();
     context.lineWidth = particle.diameter;
     context.strokeStyle = particle.color;
@@ -83,12 +120,14 @@ function drawParticles(context) {
   });
 }
 
-// Updates the position and angle of each particle
+/**
+ * Updates the position and angle of each confetti particle.
+ */
 function updateParticles() {
   var width = window.innerWidth;
   var height = window.innerHeight;
   waveAngle += 0.01;
-  particles.forEach(function(particle, index) {
+  particles.forEach(function (particle, index) {
     particle.tiltAngle += particle.tiltAngleIncrement;
     particle.x += Math.sin(waveAngle);
     particle.y += (Math.cos(waveAngle) + particle.diameter + particleSpeed) * 0.4;
@@ -105,5 +144,4 @@ function updateParticles() {
   });
 }
 
-// Optionally export these functions if you're using modules
 export { startConfetti, stopConfetti, removeConfetti };
