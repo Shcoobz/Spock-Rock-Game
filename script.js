@@ -71,6 +71,7 @@ function resetAll() {
   scores = { player: 0, computer: 0 };
   playerElements.score.textContent = 0;
   computerElements.score.textContent = 0;
+  ruleText.textContent = '';
   resultText.textContent = '';
   resetSelected();
 }
