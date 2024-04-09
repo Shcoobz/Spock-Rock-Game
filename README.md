@@ -4,7 +4,7 @@
 
 ## Summary
 
-Welcome to Spock Rock Game! This application brings a fun and interactive twist to the classic Rock Paper Scissors game by incorporating two additional elements: Lizard and Spock. It features a simple, user-friendly interface, enabling players to easily select their move and instantly see the outcome of the match against the computer.
+Spock Rock Game brings a fun and interactive twist to the classic Rock Paper Scissors game by incorporating two additional elements: Lizard and Spock. It features a simple, user-friendly interface, enabling players to easily select their move and instantly see the outcome of the match against the computer.
 
 The core functionality includes:
 
