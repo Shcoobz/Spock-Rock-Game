@@ -1,4 +1,4 @@
-# Spock Rock Game -> [LIVE DEMO](https://shcoobz.github.io/Spock-Rock-Game/)
+# Spock Rock Game -> [LIVE DEMO](https://shcoobz.github.io/spock-rock-game/)
 
 ![Spock Rock Game](img/spock-rock-game.png)
 
