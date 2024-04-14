@@ -1,6 +1,6 @@
-# Spock Rock Game -> [LIVE DEMO](https://shcoobz.github.io/spock-rock-game/)
+# basicJS_Spock Rock Game: [LIVE DEMO](https://shcoobz.github.io/basicJS_spock-rock-game/)
 
-![Spock Rock Game](img/spock-rock-game.png)
+![Spock Rock Game](img/basicJS_spock-rock-game.png)
 
 ## Summary
 
