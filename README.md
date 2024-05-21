@@ -42,4 +42,4 @@ The game is fully responsive, ensuring a seamless experience on both desktop and
 
 _Note: This document provides an overview of Spock Rock Game. For detailed instructions and more information, please refer to the source code documentation._
 
-_This project has been enhanced and converted into a React-based application, which can be viewed [here](https://github.com/Shcoobz/react_spock-rock-game/). The React version integrates more advanced state management and component-based architecture for improved maintainability and scalability._
+_This project has been enhanced and converted into a React-based application, which can be viewed [here](https://github.com/Shcoobz/advancedJS_spock-rock-game/). The React version integrates more advanced state management and component-based architecture for improved maintainability and scalability._
